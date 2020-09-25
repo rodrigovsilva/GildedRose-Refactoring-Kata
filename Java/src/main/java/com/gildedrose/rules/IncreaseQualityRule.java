@@ -44,6 +44,9 @@ public class IncreaseQualityRule extends BasicItemRule {
         // check min quality condition
         if (optCurrentConfiguration.isPresent() && item.quality < MAX_ITEM_QUALITY && itemsAppliesThisRule.stream().filter((itemName) -> StringUtils.equals(itemName, item.name)).count() > 0) {
 
+            if (optCurrentConfiguration.get().isLegendary()) {
+                return false;
+            }
             if (StringUtils.equals(item.name, ItemConfiguration.BACKSTAGE_PASS_TFKAL80ETC.getItemName())) {
 
                 if (item.sellIn <= 0) {
@@ -66,7 +69,6 @@ public class IncreaseQualityRule extends BasicItemRule {
                 return true;
 
             }
-
         }
 
         return false;

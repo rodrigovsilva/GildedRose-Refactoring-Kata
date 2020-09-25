@@ -41,7 +41,7 @@ public class DecreaseQualityRule extends BasicItemRule {
     public boolean shouldDecreaseQuantity(@Fact(AppConstant.FACT_ITEM_UPDATES) Item item) {
 
         // define items apply this rule
-        List<String> itemsNeverAppliesThisRule = Arrays.asList(ItemConfiguration.AGED_BRIE.getItemName(), ItemConfiguration.SULFURAS.getItemName());
+        List<String> itemsNeverAppliesThisRule = Arrays.asList(ItemConfiguration.AGED_BRIE.getItemName());
 
         // get item configuration
         Optional<ItemConfiguration> optCurrentConfiguration = ItemConfiguration.getItemByName(item.name);
@@ -49,8 +49,8 @@ public class DecreaseQualityRule extends BasicItemRule {
         // check min quality condition
         if (optCurrentConfiguration.isPresent() && item.quality > MIN_ITEM_QUALITY) {
 
-            //check if item applies this rule
-            if (itemsNeverAppliesThisRule.stream().filter((itemName) -> StringUtils.equals(itemName, item.name)).count() == 0) {
+            //check if item applies this rule or is not legendary
+            if (itemsNeverAppliesThisRule.stream().filter((itemName) -> StringUtils.equals(itemName, item.name)).count() == 0 || !optCurrentConfiguration.get().isLegendary()) {
 
                 // check custom condition for backstage item
                 if (ObjectUtils.equals(optCurrentConfiguration.get(), ItemConfiguration.BACKSTAGE_PASS_TFKAL80ETC)) {

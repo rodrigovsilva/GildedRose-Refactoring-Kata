@@ -10,21 +10,23 @@ import java.util.Optional;
  */
 public enum ItemConfiguration {
 
-    AGED_BRIE("Aged Brie", 0, 1),
-    BACKSTAGE_PASS_TFKAL80ETC("Backstage passes to a TAFKAL80ETC concert", 0, 1),
-    SULFURAS("Sulfuras, Hand of Ragnaros", 0, 0),
-    CONJURED_MANA_CAKE("Conjured Mana Cake", 2, 0),
-    DEXTERITY_VEST("+5 Dexterity Vest", 1, 0),
-    ELIXIR_MONGOOSE("Elixir of the Mongoose", 1, 0);
+    AGED_BRIE("Aged Brie", 0, 1, false),
+    BACKSTAGE_PASS_TFKAL80ETC("Backstage passes to a TAFKAL80ETC concert", 0, 1, false),
+    SULFURAS("Sulfuras, Hand of Ragnaros", 0, 0, true),
+    CONJURED_MANA_CAKE("Conjured Mana Cake", 2, 0, false),
+    DEXTERITY_VEST("+5 Dexterity Vest", 1, 0, false),
+    ELIXIR_MONGOOSE("Elixir of the Mongoose", 1, 0, false);
 
     private String itemName;
     private int basicDecreaseFactor;
     private int basicIncreaseFactor;
+    private boolean legendary;
 
-    ItemConfiguration(String itemName, int basicDecreaseFactor, int basicIncreaseFactor) {
+    ItemConfiguration(String itemName, int basicDecreaseFactor, int basicIncreaseFactor, boolean legendary) {
         this.itemName = itemName;
         this.basicDecreaseFactor = basicDecreaseFactor;
         this.basicIncreaseFactor = basicIncreaseFactor;
+        this.legendary = legendary;
     }
 
     public String getItemName() {
@@ -37,6 +39,10 @@ public enum ItemConfiguration {
 
     public int getBasicIncreaseFactor() {
         return basicIncreaseFactor;
+    }
+
+    public boolean isLegendary() {
+        return legendary;
     }
 
     public static Optional<ItemConfiguration> getItemByName(String name) {

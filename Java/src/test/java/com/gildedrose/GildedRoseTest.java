@@ -92,7 +92,7 @@ class GildedRoseTest {
                 new Item("Backstage passes to a TAFKAL80ETC concert", 8, 20),
                 new Item("Backstage passes to a TAFKAL80ETC concert", 4, 30),
                 new Item("Backstage passes to a TAFKAL80ETC concert", 6, 49),
-                new Item("Aged Brie", 2, 0), //
+                new Item("Aged Brie", 2, 1), //
                 new Item("Aged Brie", 2, 50)};
 
         GildedRose app = new GildedRose(items);
@@ -107,7 +107,7 @@ class GildedRoseTest {
         assertEquals(3, app.items[3].sellIn);
         assertEquals(50, app.items[4].quality);
         assertEquals(5, app.items[4].sellIn);
-        assertEquals(1, app.items[5].quality);
+        assertEquals(2, app.items[5].quality);
         assertEquals(1, app.items[5].sellIn);
         assertEquals(50, app.items[6].quality);
         assertEquals(1, app.items[6].sellIn);
