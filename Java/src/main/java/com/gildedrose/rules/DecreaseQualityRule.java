@@ -1,6 +1,7 @@
 package com.gildedrose.rules;
 
 import com.gildedrose.Item;
+import com.gildedrose.constant.AppConstant;
 import com.gildedrose.constant.ItemConfiguration;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -37,7 +38,7 @@ public class DecreaseQualityRule extends BasicItemRule {
     private static final int NEGATIVE_SELLIN_DECREASE_FACTOR = 2;
 
     @Condition
-    public boolean shouldDecreaseQuantity(@Fact("updates") Item item) {
+    public boolean shouldDecreaseQuantity(@Fact(AppConstant.FACT_ITEM_UPDATES) Item item) {
 
         // define items apply this rule
         List<String> itemsNeverAppliesThisRule = Arrays.asList(ItemConfiguration.AGED_BRIE.getItemName(), ItemConfiguration.SULFURAS.getItemName());
@@ -54,15 +55,15 @@ public class DecreaseQualityRule extends BasicItemRule {
                 // check custom condition for backstage item
                 if (ObjectUtils.equals(optCurrentConfiguration.get(), ItemConfiguration.BACKSTAGE_PASS_TFKAL80ETC)) {
                     if (item.sellIn == 0) {
-                        qualityValueForUpdate = optCurrentConfiguration.get().getBasicDecreaseFactor();
+                        qualityValueForUpdate = MIN_ITEM_QUALITY;
                         return true;
                     }
                 } else {
                     if (item.sellIn <= MIN_ITEM_SELLIN) {
-                        qualityValueForUpdate = optCurrentConfiguration.get().getBasicDecreaseFactor() * NEGATIVE_SELLIN_DECREASE_FACTOR;
+                        qualityValueForUpdate = item.quality - (optCurrentConfiguration.get().getBasicDecreaseFactor() * NEGATIVE_SELLIN_DECREASE_FACTOR);
 
                     } else {
-                        qualityValueForUpdate = optCurrentConfiguration.get().getBasicDecreaseFactor();
+                        qualityValueForUpdate = item.quality - optCurrentConfiguration.get().getBasicDecreaseFactor();
                     }
                     return true;
                 }
@@ -73,8 +74,11 @@ public class DecreaseQualityRule extends BasicItemRule {
     }
 
     @Action
-    public void decreaseQuantity(@Fact("updates") Item item) {
-        item.quality = item.quality - qualityValueForUpdate;
+    public void decreaseQuantity(@Fact(AppConstant.FACT_ITEM_UPDATES) Item item) {
+        item.quality = qualityValueForUpdate;
+        if (item.quality < MIN_ITEM_QUALITY) {
+            item.quality = MIN_ITEM_QUALITY;
+        }
     }
 
 }

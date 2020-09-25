@@ -1,6 +1,7 @@
 package com.gildedrose.rules;
 
 import com.gildedrose.Item;
+import com.gildedrose.constant.AppConstant;
 import org.jeasy.rules.annotation.Action;
 import org.jeasy.rules.annotation.Condition;
 import org.jeasy.rules.annotation.Fact;
@@ -28,12 +29,12 @@ public class DecreaseSellinRule extends BasicItemRule {
     private static final int DECREASE_SELLIN_STEP = 1;
 
     @Condition
-    public boolean shouldDecreaseSellin(@Fact("updates") Item item) {
+    public boolean shouldDecreaseSellin(@Fact(AppConstant.FACT_ITEM_UPDATES) Item item) {
         return true;
     }
 
     @Action
-    public void decreaseSellin(@Fact("updates") Item item) {
+    public void decreaseSellin(@Fact(AppConstant.FACT_ITEM_UPDATES) Item item) {
         item.sellIn = item.sellIn - DECREASE_SELLIN_STEP;
     }
 
