@@ -71,4 +71,45 @@ class GildedRoseTest {
         assertEquals(0, app.items[2].quality);
         assertEquals(-2, app.items[2].sellIn);
     }
+
+    @Test
+    void shouldNotUpdateLegendaryItems() {
+        Item[] items = new Item[]{
+                new Item("Sulfuras, Hand of Ragnaros", 0, 80)};
+
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(80, app.items[0].quality);
+        assertEquals(-1, app.items[0].sellIn);
+
+    }
+
+    @Test
+    void shouldIncreaseItems() {
+        Item[] items = new Item[]{
+                new Item("Backstage passes to a TAFKAL80ETC concert", 15, 20),
+                new Item("Backstage passes to a TAFKAL80ETC concert", 10, 49),
+                new Item("Backstage passes to a TAFKAL80ETC concert", 8, 20),
+                new Item("Backstage passes to a TAFKAL80ETC concert", 4, 30),
+                new Item("Backstage passes to a TAFKAL80ETC concert", 6, 49),
+                new Item("Aged Brie", 2, 0), //
+                new Item("Aged Brie", 2, 50)};
+
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(21, app.items[0].quality);
+        assertEquals(14, app.items[0].sellIn);
+        assertEquals(50, app.items[1].quality);
+        assertEquals(9, app.items[1].sellIn);
+        assertEquals(22, app.items[2].quality);
+        assertEquals(7, app.items[2].sellIn);
+        assertEquals(33, app.items[3].quality);
+        assertEquals(3, app.items[3].sellIn);
+        assertEquals(50, app.items[4].quality);
+        assertEquals(5, app.items[4].sellIn);
+        assertEquals(1, app.items[5].quality);
+        assertEquals(1, app.items[5].sellIn);
+        assertEquals(50, app.items[6].quality);
+        assertEquals(1, app.items[6].sellIn);
+    }
 }

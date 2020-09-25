@@ -45,7 +45,11 @@ public class IncreaseQualityRule extends BasicItemRule {
         if (optCurrentConfiguration.isPresent() && item.quality < MAX_ITEM_QUALITY && itemsAppliesThisRule.stream().filter((itemName) -> StringUtils.equals(itemName, item.name)).count() > 0) {
 
             if (StringUtils.equals(item.name, ItemConfiguration.BACKSTAGE_PASS_TFKAL80ETC.getItemName())) {
-                if (item.sellIn <= 10 && item.sellIn >= 5) {
+
+                if (item.sellIn <= 0) {
+                    return false;
+                }
+                if (item.sellIn <= 10 && item.sellIn > 5) {
                     qualityValueForUpdate = item.quality + 2;
                     return true;
 
@@ -53,6 +57,9 @@ public class IncreaseQualityRule extends BasicItemRule {
                     qualityValueForUpdate = item.quality + 3;
                     return true;
 
+                } else {
+                    qualityValueForUpdate = item.quality + optCurrentConfiguration.get().getBasicIncreaseFactor();
+                    return true;
                 }
             } else {
                 qualityValueForUpdate = item.quality + optCurrentConfiguration.get().getBasicIncreaseFactor();
